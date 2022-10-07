@@ -19,7 +19,7 @@ add_party_ids <- function(ids,
     load(paste(.libPaths(),"/paRtyids/data/partyfactsdata.RDATA",sep=""))
   } else {
     partyfactsdataset <-
-      get_dataframe_by_name(
+      dataverse::get_dataframe_by_name(
         filename  = "external-parties.tab",
         dataset   = "10.7910/DVN/GM8LWQ",
         server    = "dataverse.harvard.edu"
