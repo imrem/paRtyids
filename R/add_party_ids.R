@@ -16,7 +16,7 @@ add_party_ids <- function(ids,
                           from_partyfacts = TRUE) {
 
   if (file.exists(paste(.libPaths()[1],"/paRtyids/data/partyfactsdata.RDATA",sep=""))) {
-    load(paste(.libPaths(),"/paRtyids/data/partyfactsdata.RDATA",sep=""))
+    load(paste(.libPaths()[1],"/paRtyids/data/partyfactsdata.RDATA",sep=""))
   } else {
     partyfactsdataset <-
       dataverse::get_dataframe_by_name(
