@@ -83,6 +83,6 @@ add_party_ids <- function(ids,
     print("HERE SHOULD BE A WARNING")
   }
 
-
+  requestedvars <- as.integer(requestedvars)
   return(requestedvars)
 }
