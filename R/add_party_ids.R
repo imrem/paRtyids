@@ -15,8 +15,8 @@ add_party_ids <- function(ids,
                           dataset = c("manifesto","parlgov","wikipedia","ches","clea","essprtc","essprtv"),
                           from_partyfacts = TRUE) {
 
-  if (file.exists(paste(find.package("paRtyids"),"/paRtyids/data/partyfactsdata.RDATA",sep=""))) {
-    load(paste(find.package("paRtyids"),"/paRtyids/data/partyfactsdata.RDATA",sep=""))
+  if (file.exists(paste(find.package("paRtyids"),"/data/partyfactsdata.RDATA",sep=""))) {
+    load(paste(find.package("paRtyids"),"/data/partyfactsdata.RDATA",sep=""))
   } else {
     partyfactsdataset <-
       dataverse::get_dataframe_by_name(
@@ -24,8 +24,8 @@ add_party_ids <- function(ids,
         dataset   = "10.7910/DVN/GM8LWQ",
         server    = "dataverse.harvard.edu"
       )
-    dir.create(paste(find.package("paRtyids"),"/paRtyids/data",sep=""))
-    save(partyfactsdataset,file=paste(find.package("paRtyids"),"/paRtyids/data/partyfactsdata.RDATA",sep=""))
+    dir.create(paste(find.package("paRtyids"),"/data",sep=""))
+    save(partyfactsdataset,file=paste(find.package("paRtyids"),"/data/partyfactsdata.RDATA",sep=""))
   }
   partyids <- data.frame(as.vector(ids))
 
@@ -47,3 +47,4 @@ add_party_ids <- function(ids,
 
   return(requestedvars)
 }
+
