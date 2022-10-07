@@ -12,8 +12,8 @@
 #'
 #'@export
 add_party_ids <- function(ids,
-                          dataset = c("manifesto","parlgov","wikipedia","ches","clea","essprtc","essprtv"),
-                          from_partyfacts = TRUE) {
+                          from = c("partyfacts","manifesto","parlgov","wikipedia","ches","clea","essprtc","essprtv"),
+                          to = c("partyfacts","manifesto","parlgov","wikipedia","ches","clea","essprtc","essprtv")) {
 
   if (file.exists(paste(find.package("paRtyids"),"/data/partyfactsdata.RDATA",sep=""))) {
     load(paste(find.package("paRtyids"),"/data/partyfactsdata.RDATA",sep=""))
@@ -28,23 +28,61 @@ add_party_ids <- function(ids,
     save(partyfactsdataset,file=paste(find.package("paRtyids"),"/data/partyfactsdata.RDATA",sep=""))
   }
   partyids <- data.frame(as.vector(ids))
+  partyids$mergeorder <- as.integer(rownames(partyids))
 
-  if(from_partyfacts==TRUE) {
-    names(partyids)[1] <- "partyfacts_id"
-    returnvar <- "dataset_party_id"
-  } else {
-    names(partyids)[1] <- "dataset_party_id"
-    returnvar <- "partyfacts_id"
+  if(missing(from) & missing(to)) {
+    stop("You need to either set a value for 'from' or 'to' or both")
   }
 
-  partyfactsdataset_reduced <- partyfactsdataset[partyfactsdataset$dataset_key==dataset,]
+  if(missing(from)) {
+    from <- "partyfacts"
+  }
 
-  partyids$mergeorder <- as.integer(rownames(partyids))
-  merged <- merge(partyids,partyfactsdataset_reduced,all.x=T)
-  merged <- merged[order(merged$mergeorder),]
-  merged$mergeorder <- NULL
-  requestedvars <- merged[,returnvar]
+  if(missing(to)) {
+    to <- "partyfacts"
+  }
+
+  if(from==to) {
+    stop("'from' and 'to' cannot be the same dataset")
+  }
+
+
+  if(from=="partyfacts") {
+    names(partyids)[1] <- "partyfacts_id"
+    returnvar <- "dataset_party_id"
+    partyfactsdataset_reduced <- partyfactsdataset[partyfactsdataset$dataset_key==to,]
+    merged <- merge(partyids,partyfactsdataset_reduced,all.x=T)
+    merged <- merged[order(merged$mergeorder),]
+    merged$mergeorder <- NULL
+    requestedvars <- merged[,returnvar]
+  }
+
+  if(to=="partyfacts") {
+    names(partyids)[1] <- "dataset_party_id"
+    returnvar <- "partyfacts_id"
+    partyfactsdataset_reduced <- partyfactsdataset[partyfactsdataset$dataset_key==from,]
+    merged <- merge(partyids,partyfactsdataset_reduced,all.x=T)
+    merged <- merged[order(merged$mergeorder),]
+    merged$mergeorder <- NULL
+    requestedvars <- merged[,returnvar]
+  }
+
+  if(from!="partyfacts" & to!="partyfacts") {
+    names(partyids)[1] <- "dataset_party_id"
+    returnvar <- "dataset_party_id"
+
+    partyfactsdataset_reduced <- partyfactsdataset[partyfactsdataset$dataset_key==from,]
+    merged <- merge(partyids,partyfactsdataset_reduced,all.x=T)
+    partyids <- merged[order(merged$mergeorder),c("mergeorder","partyfacts_id")]
+
+    partyfactsdataset_reduced <- partyfactsdataset[partyfactsdataset$dataset_key==to,]
+    merged <- merge(partyids,partyfactsdataset_reduced,all.x=T)
+    merged <- merged[order(merged$mergeorder),]
+    merged$mergeorder <- NULL
+    requestedvars <- merged[,returnvar]
+    print("HERE SHOULD BE A WARNING")
+  }
+
 
   return(requestedvars)
 }
-
