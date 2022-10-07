@@ -10,7 +10,7 @@
 #' @examples
 #' not done yet
 #'
-#'
+#' @export
 add_party_ids <- function(ids,
                           dataset = c("manifesto","parlgov","wikipedia","ches","clea","essprtc","essprtv"),
                           from_partyfacts = TRUE) {
