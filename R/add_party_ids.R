@@ -6,26 +6,26 @@
 #' @param from_partyfacts logical: do you have partyfacts IDs and want to merge other IDs to it (TRUE, default)
 #' or do you have other IDs and want to add partyfacts IDs (FALSE)?
 #' @keywords parties partyfacts marpor cmp parlgov wikipedia ches clea ess
-#' @export
 #' @examples
 #' not done yet
 #'
-#' @export
+#'
+#'@export
 add_party_ids <- function(ids,
                           dataset = c("manifesto","parlgov","wikipedia","ches","clea","essprtc","essprtv"),
                           from_partyfacts = TRUE) {
 
-  if (file.exists(paste(.libPaths()[1],"/paRtyids/data/partyfactsdata.RDATA",sep=""))) {
-    load(paste(.libPaths()[1],"/paRtyids/data/partyfactsdata.RDATA",sep=""))
+  if (file.exists(paste(find.package("paRtyids"),"/paRtyids/data/partyfactsdata.RDATA",sep=""))) {
+    load(paste(find.package("paRtyids"),"/paRtyids/data/partyfactsdata.RDATA",sep=""))
   } else {
     partyfactsdataset <-
-      dataverse::get_dataframe_by_name(
+      get_dataframe_by_name(
         filename  = "external-parties.tab",
         dataset   = "10.7910/DVN/GM8LWQ",
         server    = "dataverse.harvard.edu"
       )
-    dir.create(paste(.libPaths()[1],"/paRtyids/data",sep=""))
-    save(partyfactsdataset,file=paste(.libPaths()[1],"/paRtyids/data/partyfactsdata.RDATA",sep=""))
+    dir.create(paste(find.package("paRtyids"),"/paRtyids/data",sep=""))
+    save(partyfactsdataset,file=paste(find.package("paRtyids"),"/paRtyids/data/partyfactsdata.RDATA",sep=""))
   }
   partyids <- data.frame(as.vector(ids))
 
@@ -47,4 +47,3 @@ add_party_ids <- function(ids,
 
   return(requestedvars)
 }
-
