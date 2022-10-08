@@ -31,7 +31,9 @@ addpartyids <- function(ids,
   } else {
     message("Downloading partyfacts dataset (this might take a few seconds)")
     partyfactsdataset <- read.csv("https://partyfacts.herokuapp.com/download/external-parties-csv/")
-    dir.create(paste(find.package("paRtyids"),"/data",sep=""))
+      if (!file.exists(paste(find.package("paRtyids"),"/data/",sep=""))) {
+      dir.create(paste(find.package("paRtyids"),"/data",sep=""))
+      }
     save(partyfactsdataset,file=paste(find.package("paRtyids"),"/data/partyfactsdata.RDATA",sep=""))
   }
   partyids <- data.frame(as.vector(ids))

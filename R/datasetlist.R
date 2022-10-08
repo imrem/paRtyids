@@ -23,7 +23,9 @@ datasetlist <- function(details = FALSE) {
           dataset   = "10.7910/DVN/GM8LWQ",
           server    = "dataverse.harvard.edu"
         )
-      dir.create(paste(find.package("paRtyids"),"/data",sep=""))
+      if (!file.exists(paste(find.package("paRtyids"),"/data/",sep=""))) {
+        dir.create(paste(find.package("paRtyids"),"/data",sep=""))
+      }
       save(listofdatasets,file=paste(.libPaths()[1],"/paRtyids/data/listofdatasets.RDATA",sep=""))
     }
     print(listofdatasets, n=nrow(listofdatasets))
