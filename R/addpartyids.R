@@ -50,7 +50,7 @@ addpartyids <- function(ids,
                   "mudde","nped","parlspeech","postyug","pip","poppa","ppdb","ppla","ppmdall","ray",
                   "tap","populist","voteview","ees14","ppepe","thomas")) {
 
-    stop(paste0("\"",from,"\" is not an available dataset. Call \"partyidsdata()\" for a list of available datasets. "))
+    stop(paste0("\"",from,"\" is not an available dataset. Call \"datasetlist()\" for a list of available datasets. "))
   }
   if(!to %in% c("partyfacts","manifesto","parlgov","wikipedia","ches","clea","ejpr","vparty","wptags",
                   "chisols","dpi","essprtc","essprtv","huber","kitschelt","polcon","ppmd",
