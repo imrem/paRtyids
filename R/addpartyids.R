@@ -42,6 +42,15 @@ addpartyids <- function(ids,
   if(missing(from) & missing(to)) {
     stop("You need to either set a value for 'from' or 'to' or both. If you only set a value for one of them, partyfacts is used as the other dataset")
   }
+  if(missing(from)) {
+    from <- "partyfacts"
+    message("No 'from' dataset was specified, so partyfacts was used as 'from' dataset")
+  }
+
+  if(missing(to)) {
+    to <- "partyfacts"
+    message("No 'to' dataset was specified, so partyfacts was used as 'to' dataset")
+  }
   if(!from %in% c("partyfacts","manifesto","parlgov","wikipedia","ches","clea","ejpr","vparty","wptags",
                   "chisols","dpi","essprtc","essprtv","huber","kitschelt","polcon","ppmd",
                   "whogov","wvs","afrelec","afro","ccdd","ccs","coppedge","cses","elecglob",
@@ -61,17 +70,6 @@ addpartyids <- function(ids,
                   "tap","populist","voteview","ees14","ppepe","thomas")) {
 
     stop(paste0("\"",to,"\" is not an available dataset. Call \"datasetlist()\" for a list of available datasets. "))
-  }
-
-
-  if(missing(from)) {
-    from <- "partyfacts"
-    message("No 'from' dataset was specified, so partyfacts was used as 'from' dataset")
-  }
-
-  if(missing(to)) {
-    to <- "partyfacts"
-    message("No 'to' dataset was specified, so partyfacts was used as 'to' dataset")
   }
 
   if(from==to) {
@@ -112,7 +110,7 @@ addpartyids <- function(ids,
     merged <- merged[order(merged$mergeorder),]
     merged$mergeorder <- NULL
     requestedvars <- merged[,returnvar]
-    message(paste0("WARNING: your request is a two-step process ("))
+    message(paste0("PLEASE NOTE: your request is a two-step process (get partyfacts IDs from ",from," IDs, then get ",to," IDs from partyfacts IDs). Mistakes can happen at either of those steps. Consider executing these commands seperately so you can check the output of either."))
   }
 
   requestedvars <- as.integer(requestedvars)
